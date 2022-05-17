@@ -4,6 +4,7 @@ import LogIn from "../views/LogIn";
 import Profile from "../views/Profile";
 import Home from "../views/Home";
 import { useUser } from "../contexts/authContext";
+import Match from "../views/Match";
 
 const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -13,19 +14,12 @@ const Navigation = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {user ? (
         <>
-          <Stack.Screen
-            name="swipe"
-            component={Swipe}
-            options={{ title: "" }}
-          />
-          <Stack.Screen
-            name="profile"
-            component={Profile}
-            options={{ title: "" }}
-          />
+          <Stack.Screen name="swipe" component={Swipe} />
+          <Stack.Screen name="profile" component={Profile} />
+          <Stack.Screen name="match" component={Match} />
         </>
       ) : (
-        <Stack.Screen name="login" component={LogIn} options={{ title: "" }} />
+        <Stack.Screen name="login" component={LogIn} />
       )}
     </Stack.Navigator>
   );

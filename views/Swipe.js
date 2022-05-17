@@ -5,9 +5,16 @@ import Cat from "../components/Cat";
 import SwipeTool from "../components/SwipeTool";
 import { useEffect, useState } from "react";
 import { db } from "../components/Firebase";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { useUser } from "../contexts/authContext";
 import Home from "./Home";
+import SignOut from "../components/SignOut";
 
 const Swipe = () => {
   const nav = useNavigation();
@@ -24,18 +31,17 @@ const Swipe = () => {
       querySnapshot.forEach((owner) => {
         users.push({ ...owner.data(), docId: owner.id });
       });
-
       const candidates = users.filter(
-        (u) => u.uid !== user.uid && !user.likes.includes(user.docId)
+        (u) => u.uid !== user.uid && !user.likes.includes(u.uid)
       );
-      setProfiles(users);
+      setProfiles(candidates);
       setCurrent({ ...users[0], index: 0 });
     } catch (error) {
       console.log(error);
     }
   }, [db]);
 
-  const handleSkip = () => {
+  const skip = () => {
     let nextIndex = current.index + 1;
     if (nextIndex < profiles.length) {
       return setCurrent({ ...profiles[nextIndex], index: nextIndex });
@@ -45,10 +51,18 @@ const Swipe = () => {
 
   const handleLike = async () => {
     try {
+      //save like
       const userRef = doc(db, "owners", user.docId);
-      //const likedUserRef = doc(db, "owners", current.docId);
-      await updateDoc(userRef, { likes: [...user.likes, current.docId] });
-      handleSkip();
+      const likes = [...user.likes, current.uid];
+      console.log(likes);
+      await updateDoc(userRef, { likes: arrayUnion(current.uid) });
+      //check if like back
+      if (current.likes.includes(user.uid)) {
+        nav.navigate("match", current.uid);
+      }
+      console.log(user.uid);
+      //next
+      return skip();
     } catch (error) {
       console.log(error);
     }
@@ -70,10 +84,11 @@ const Swipe = () => {
           </View>
           <Cat
             cat={current.cat}
-            tool={<SwipeTool handleSkip={handleSkip} handleLike={handleLike} />}
+            tool={<SwipeTool handleSkip={skip} handleLike={handleLike} />}
           />
         </View>
       )}
+      <SignOut />
     </SafeAreaView>
   );
 };

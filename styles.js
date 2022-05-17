@@ -8,6 +8,13 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
 
+  loginView: {
+    flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
   img: {
     width: 300,
     height: 300,

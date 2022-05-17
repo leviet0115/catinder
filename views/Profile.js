@@ -16,6 +16,7 @@ import Form from "../components/Form";
 import Cat from "../components/Cat";
 import { Card } from "react-native-paper";
 import Home from "./Home";
+import SignOut from "../components/SignOut";
 
 const Profile = () => {
   const [user, setUser] = useUser();
@@ -69,10 +70,10 @@ const Profile = () => {
           </Card.Content>
         </Card>
       </View>
+
+      <SignOut />
     </SafeAreaView>
   );
 };
-
-// /style={{ justifyContent: "center", alignItems: "center" }
 
 export default Profile;

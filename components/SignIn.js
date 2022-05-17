@@ -7,25 +7,19 @@ import {
 } from "firebase/auth";
 import { auth, db } from "./Firebase";
 
-import { Button, View } from "react-native";
+import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useUser } from "../contexts/authContext";
-
+import { Button } from "react-native-paper";
+import { Auth } from "firebase/auth";
 import * as WebBrowser from "expo-web-browser";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const SignIn = () => {
-  const [user, setUser] = useUser();
+  const [user, setUser] = useUser(null);
   const [googleInfo, setGoogleInfo] = useState(null);
   const nav = useNavigation();
 
@@ -34,23 +28,11 @@ const SignIn = () => {
       "571620227432-9pugk2vjg04h1250af8qp1mao6enllc1.apps.googleusercontent.com",
   });
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (loginUser) => {
-      if (loginUser) {
-        setGoogleInfo(loginUser);
-      } else {
-        setGoogleInfo(null);
-      }
-    });
-  }, []);
-
   useEffect(async () => {
     try {
       if (response?.type === "success") {
         const { id_token } = response.params;
         const { accessToken } = response.params;
-
-        const auth = getAuth();
         const credential = GoogleAuthProvider.credential(id_token, accessToken);
         await signInWithCredential(auth, credential);
         //console.log(user);
@@ -71,24 +53,36 @@ const SignIn = () => {
           email: googleInfo.email,
           image: googleInfo.photoURL,
         });
-        console.log("from signin", googleInfo);
+        //console.log("from signin", googleInfo);
 
-        nav.navigate("swipe");
+        return nav.navigate("swipe");
       }
     } catch (error) {
       console.log(error);
     }
   }, [response]);
 
+  useEffect(() => {
+    onAuthStateChanged(auth, (loginUser) => {
+      if (loginUser) {
+        return setGoogleInfo(loginUser);
+      } else {
+        return setGoogleInfo(null);
+      }
+    });
+  }, []);
+
   return (
     <View>
       <Button
+        mode="contained"
+        onPress={() => promptAsync()}
         disabled={!request}
-        title="Login"
-        onPress={() => {
-          promptAsync();
-        }}
-      />
+        labelStyle={{ color: "white" }}
+        color="#ff5b5b"
+      >
+        Sign in with Google
+      </Button>
     </View>
   );
 };

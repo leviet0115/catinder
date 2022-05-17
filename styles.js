@@ -3,9 +3,9 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
 
   img: {
@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     borderColor: "lightgrey",
-    width: 310,
-    height: 400,
+    width: 350,
+    height: 550,
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "space-around",
@@ -49,6 +49,47 @@ const styles = StyleSheet.create({
   boy: {
     color: "blue",
     fontWeight: "bold",
+  },
+
+  //form
+  input: {
+    width: 300,
+    borderStyle: "solid",
+    borderColor: "grey",
+    borderWidth: 1,
+  },
+
+  radioBtn: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    width: 100,
+  },
+
+  strong: {
+    fontWeight: "bold",
+  },
+
+  checkBox: {
+    width: 35,
+    height: 35,
+    borderStyle: "solid",
+    borderColor: "grey",
+    borderWidth: 1,
+    borderRadius: 30,
+  },
+
+  //image
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

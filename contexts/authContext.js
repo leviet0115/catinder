@@ -1,11 +1,17 @@
 import * as React from "react";
 
-const authContext = React.createContext();
+const AuthContext = React.createContext();
 
-const authProvider = ({ props }) => {
-  const [user, setUser] = useState(null);
+const useUser = () => React.useContext(AuthContext);
+
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = React.useState(null);
 
   return (
-    <authContext.provider value={user}> {props.children} </authContext.provider>
+    <AuthContext.Provider value={[user, setUser]}>
+      {children}
+    </AuthContext.Provider>
   );
 };
+
+export { AuthProvider, useUser };

@@ -5,7 +5,7 @@ import { getStorage } from "firebase/storage";
 import { getDatabase } from "firebase/database";
 
 const app = initializeApp({
-  apiKey: "AIzaSyD2bcorII46QAmyUBByOeOGSWd6PgIatVI",
+  apiKey: API_KEY,
   authDomain: "lv-catinder.firebaseapp.com",
   databaseURL:
     "https://lv-catinder-default-rtdb.europe-west1.firebasedatabase.app",
